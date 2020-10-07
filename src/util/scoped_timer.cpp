@@ -33,7 +33,8 @@ private:
     static void thread_func(unsigned ms, event_handler * eh, std::timed_mutex * mutex) {
         auto end = std::chrono::steady_clock::now() + std::chrono::milliseconds(ms);
 
-        while (!mutex->try_lock_until(end)) {
+        // while (!mutex->try_lock_until(end)) {
+        while (!mutex->try_lock()) {
             if (std::chrono::steady_clock::now() >= end) {
                 eh->operator()(TIMEOUT_EH_CALLER);
                 return;
